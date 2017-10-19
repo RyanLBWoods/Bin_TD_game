@@ -1,4 +1,5 @@
 package towerdefence;
+
 /**
  * CS5001 - P2: Tower Defence game.
  * 
@@ -6,31 +7,33 @@ package towerdefence;
  *
  */
 public abstract class Tower {
-
-    private int damage;
-    private int position;
-    private int loadingTime;
-
     /**
-     * Tower constructor.
-     * 
-     * @param damage
-     *            Damage of the tower
-     * @param loadingTime
-     *            Time request for loading
+     * Static certain value 5 of damage of tower of type of catapult.
      */
-    public Tower(int damage, int loadingTime) {
-        this.damage = damage;
-        this.position = 0;
-        this.loadingTime = loadingTime;
-    }
+    public static final int CATAPULT_DAMAGE = 5;
+    /**
+     * Static certain value 5 of loading time of tower of type of catapult.
+     */
+    public static final int CATAPULT_LOADINGTIME = 3;
+    /**
+     * Static certain value 5 of damage of tower of type of sling shot.
+     */
+    public static final int SLINGSHOT_DAMAGE = 1;
+    /**
+     * Static certain value 5 of loading time of tower of type of sling shot.
+     */
+    public static final int SLINGSHOT_LOADINGTIME = 1;
+
+    protected int damage;
+    protected int position;
+    protected int loadingTime;
 
     /**
      * Get damage of tower.
      * 
      * @return Return the damage of tower
      */
-    int getDamage() {
+    public int getDamage() {
         return damage;
     }
 
@@ -39,7 +42,7 @@ public abstract class Tower {
      * 
      * @return Return the position of tower
      */
-    int getPosition() {
+    public int getPosition() {
         return position;
     }
 
@@ -50,7 +53,7 @@ public abstract class Tower {
      *            The running time of game
      * @return Return true of false value to indicate if tower will fire
      */
-    boolean willFire(int timeStep) {
+    public boolean willFire(int timeStep) {
         return timeStep % loadingTime == 0;
     }
 }

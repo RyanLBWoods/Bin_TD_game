@@ -6,17 +6,18 @@ package towerdefence;
  * @author bl41
  *
  */
-public class Catapult extends Tower {
+public class Slingshot extends Tower {
     /**
      * Constructor.
      * 
      * @param position
      *            The position of tower
      */
-    public Catapult(int position) {
-        this.damage = CATAPULT_DAMAGE;
-        this.loadingTime = CATAPULT_LOADINGTIME;
+    public Slingshot(int position) {
+        this.damage = SLINGSHOT_DAMAGE;
+        this.loadingTime = SLINGSHOT_LOADINGTIME;
         this.position = position;
         // TODO Auto-generated constructor stub
     }
+
 }

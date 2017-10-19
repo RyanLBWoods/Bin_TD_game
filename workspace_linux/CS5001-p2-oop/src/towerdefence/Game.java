@@ -1,4 +1,5 @@
 package towerdefence;
+
 import java.util.ArrayList;
 
 /**
@@ -8,10 +9,14 @@ import java.util.ArrayList;
  *
  */
 public class Game {
+    /**
+     * Define 10 as initial budget.
+     */
+    public static final int INITIAL_BUDGET = 10;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Tower> towers = new ArrayList<>();
-    private int budget = 10;
+    private int budget = INITIAL_BUDGET;
     private int corriderlength;
     /**
      * Global variable for getting running time.
@@ -19,7 +24,7 @@ public class Game {
     private static int timeStep = 0;
 
     /**
-     * Mehtod for game running.
+     * Method for game running.
      * 
      * @param corridorLength
      *            The length of game corridor
@@ -34,7 +39,7 @@ public class Game {
      * @return the current real time minus time step
      */
     public int getTime() {
-        return (int) (System.currentTimeMillis() - timeStep);
+        return (int) ((System.currentTimeMillis() / 1000) - timeStep);
     }
 
     /**
@@ -42,28 +47,76 @@ public class Game {
      */
     public void advance() {
 
-        timeStep = (int) System.currentTimeMillis();
-
-        for (int i = 0; i < towers.size(); i++) {
-            if (towers.get(i).willFire((int) System.currentTimeMillis() - timeStep)) {
-                for (int j = 0; j < enemies.size(); j++) {
-
-                    if (towers.get(i).getPosition() >= enemies.get(j).getPosition()) {
-                        enemies.get(j).hit(towers.get(i));
+        timeStep = (int) System.currentTimeMillis() / 1000;
+        while (!enemies.isEmpty()) {
+            /*
+             * Enemy move. If any enemy move over the corridor, the game is over
+             */
+            for (int x = 0; 0 < enemies.size(); x++) {
+                Enemy e = enemies.get(x);
+                if (e instanceof Elephant && (int) (System.currentTimeMillis() / 1000 - timeStep) % 2 == 0) {
+                    e.advance();
+                    if (e.getPosition() >= corriderlength) {
+                        System.out.println("YOU LOSE!");
+                        System.exit(0);
                     }
-
-                    if (enemies.get(j).getHealth() != 0) {
-                        enemies.get(j).advance();
+                } else if (e instanceof Rat) {
+                    e.advance();
+                    if (e.getPosition() >= corriderlength) {
+                        System.out.println("YOU LOSE!");
+                        System.exit(0);
                     }
                 }
             }
+            /*
+             * Tower fire.
+             */
+            for (int i = 0; i < towers.size(); i++) {
+                Tower t = towers.get(i);
+                if (t instanceof Catapult && t.willFire((int) (System.currentTimeMillis() / 1000 - timeStep))) {
+                    hitEnemy(t, enemies);
+                } else if (t instanceof Slingshot && t.willFire((int) (System.currentTimeMillis() / 1000 - timeStep))) {
+                    hitEnemy(t, enemies);
+                }
+            }
         }
+    }
 
+    /**
+     * Method for hitting enemy.
+     * 
+     * @param t
+     *            The current Tower
+     * @param enemy
+     *            The list of enemies
+     */
+    private void hitEnemy(Tower t, ArrayList<Enemy> enemy) {
+        // TODO Auto-generated method stub
+        // Find the nearest enemy
+        int nearest = 0;
+        int index = 0;
+        for (int a = 0; a < enemy.size(); a++) {
+            Enemy temp = enemy.get(a);
+            if (temp.getPosition() > nearest) {
+                nearest = temp.getPosition();
+                index = a;
+            }
+        }
+        // Hit the enemy
+        Enemy ne = enemy.get(index);
+        if (ne.getPosition() <= t.getPosition()) {
+            ne.hit(t);
+            if (ne.health <= 0) {
+                enemy.remove(ne);
+            }
+        }
     }
 
     /**
      * Main method for the program.
-     * @param args initial user input.
+     * 
+     * @param args
+     *            initial user input.
      */
     public static void main(String[] args) {
         // TODO Auto-generated method stub

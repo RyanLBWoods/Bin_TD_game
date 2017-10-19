@@ -6,15 +6,13 @@ package towerdefence;
  *
  */
 public class Rat extends Enemy {
-
-    private static int health = 1;
-    private static float speed = 2;
-
     /**
      * Constructor.
      */
     public Rat() {
-        super(health, speed);
+        this.health = RAT_HEALTH;
+        this.position = 0;
+        this.speed = RAT_SPEED;
         // TODO Auto-generated constructor stub
     }
 

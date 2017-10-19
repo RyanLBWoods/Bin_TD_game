@@ -6,15 +6,13 @@ package towerdefence;
  *
  */
 public class Elephant extends Enemy {
-
-    private static int health = 10;
-    private static float speed = 0.5f;
-
     /**
      * Constructor.
      */
     public Elephant() {
-        super(health, speed);
+        this.health = ELEPHANT_HEALTH;
+        this.position = 0;
+        this.speed = ELEPHANT_SPEED;
         // TODO Auto-generated constructor stub
     }
 
