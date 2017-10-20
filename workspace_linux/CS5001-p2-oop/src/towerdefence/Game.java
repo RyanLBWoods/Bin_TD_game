@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.jws.soap.SOAPBinding;
-
 /**
  * CS5001 - P2: Tower Defence game.
  * 
@@ -28,8 +26,8 @@ public class Game {
     protected static int budget = INITIAL_BUDGET;
     protected static int corriderlength = INITIAL_CORRIDERLENGTH;
     protected static int round = 0;
-    static Scanner sc = new Scanner(System.in);
-    static HashMap<String, String> costlist = new HashMap<String, String>();
+    protected static Scanner sc = new Scanner(System.in);
+    protected static HashMap<String, String> costlist = new HashMap<String, String>();
 
     /**
      * Global variable for getting running time.
@@ -131,11 +129,14 @@ public class Game {
         Enemy ne = enemy.get(index);
         ne.hit(t);
         if (ne.health <= 0) {
+            budget = budget + ne.bonus;
             enemy.remove(ne);
-            budget += ne.bonus;
         }
     }
 
+    /**
+     * Method for building the tower.
+     */
     @SuppressWarnings("unchecked")
     public static void buildTower() {
 
@@ -161,7 +162,7 @@ public class Game {
         while (towerPosition.contains(sPosition)) {
             System.out.println("Occupied position");
             System.out.println(
-                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 per 5 timestep");
+                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 bonus 30 damage per 5 timestep");
             System.out.println("Please select tower");
             sposition = sc.nextLine();
             sPosition = Integer.valueOf(sposition);
@@ -218,7 +219,55 @@ public class Game {
 
         System.out.println("You have 5 initial budget to build towers, you will get bonus after kill enemies");
         System.out.println(
-                "There are 5 rounds. You can only build after each round. \nYour tower can only hit enemies who is in front of it");
+                "There are 3 rounds. You can only build after each round. \nYour tower can only hit enemies who is in front of it");
+        System.out.println("Round 1: 5 Rats and 2 Elephant");
+        System.out.println("Budget: " + budget);
+        Rat r1 = new Rat();
+        Rat r2 = new Rat();
+        Rat r3 = new Rat();
+        Rat r4 = new Rat();
+        Rat r5 = new Rat();
+        Elephant ele1 = new Elephant();
+        Elephant ele2 = new Elephant();
+        enemies.add(r1);
+        enemies.add(r2);
+        enemies.add(r3);
+        enemies.add(r4);
+        enemies.add(r5);
+        enemies.add(ele1);
+        enemies.add(ele2);
+        round();
+        System.out.println("Round 2: ");
+        System.out.println("Budget: " + budget);
+        Rat r6 = new Rat();
+        Rat r7 = new Rat();
+        Rat r8 = new Rat();
+        Rat r9 = new Rat();
+        Rat r10 = new Rat();
+        Elephant ele3 = new Elephant();
+        Elephant ele4 = new Elephant();
+        Elephant ele5 = new Elephant();
+        Elephant ele6 = new Elephant();
+         enemies.add(r6);
+//         enemies.add(r7);
+//         enemies.add(r8);
+//         enemies.add(r9);
+//         enemies.add(r10);
+        enemies.add(ele3);
+        enemies.add(ele4);
+        enemies.add(ele5);
+        enemies.add(ele6);
+        round();
+        System.out.println("Round 3");
+        System.out.println("Budget: " + budget);
+        Arthas a = new Arthas();
+        enemies.add(a);
+        round();
+    }
+    /**
+     * Method for generating each round of the game.
+     */
+    public static void round() {
         buildTower();
         Game game = new Game(corriderlength);
         Rat r = new Rat();

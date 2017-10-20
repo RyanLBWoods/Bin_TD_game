@@ -13,6 +13,7 @@ public class Rat extends Enemy {
         this.health = RAT_HEALTH;
         this.position = 0;
         this.speed = RAT_SPEED;
+        this.bonus = RAT_BONUS;
         // TODO Auto-generated constructor stub
     }
 

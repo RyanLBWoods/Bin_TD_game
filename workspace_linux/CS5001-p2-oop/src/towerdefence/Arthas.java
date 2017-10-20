@@ -14,5 +14,6 @@ public class Arthas extends Enemy {
         this.health = ARTHAS_HEALTH;
         this.speed = ARTHAS_SPEED;
         this.position = 0;
+        this.bonus = ARTHAS_BONUS;
     }
 }

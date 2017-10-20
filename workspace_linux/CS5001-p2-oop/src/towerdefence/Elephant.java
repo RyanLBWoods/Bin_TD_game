@@ -13,6 +13,7 @@ public class Elephant extends Enemy {
         this.health = ELEPHANT_HEALTH;
         this.position = 0;
         this.speed = ELEPHANT_SPEED;
+        this.bonus = ELEPHANT_BONUS;
         // TODO Auto-generated constructor stub
     }
 }

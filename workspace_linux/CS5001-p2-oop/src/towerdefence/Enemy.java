@@ -16,7 +16,7 @@ public abstract class Enemy {
      */
     public static final float ELEPHANT_SPEED = 0.5f;
     /**
-     * Static certain value 5 of bonus of enemy of type of boss elephant.
+     * Static certain value 5 of bonus of enemy of type of elephant.
      */
     public static final int ELEPHANT_BONUS = 5;
     /**
