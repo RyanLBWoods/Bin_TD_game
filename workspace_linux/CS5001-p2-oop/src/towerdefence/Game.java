@@ -78,6 +78,7 @@ public class Game {
             for (int n = 0; n < (tempp - printP) - 1; n++) {
                 System.out.print(" ");
             }
+            // Use initial to indicate the type of tower
             if (tmpTL.get(frontT) instanceof Catapult) {
                 System.out.print("C");
             } else if (tmpTL.get(frontT) instanceof Slingshot) {
@@ -85,18 +86,22 @@ public class Game {
             } else if (tmpTL.get(frontT) instanceof Fordring) {
                 System.out.print("F");
             }
+            // Get printed length, start next displaying by tailing it
             printP = tempp;
+            // Remove displayed tower
             tmpTL.remove(frontT);
+            // Reset temper position
             tempp = corridorLength;
         }
         System.out.println();
 
+        // Display the corridor wall
         for (int i = 0; i < corridorLength; i++) {
             System.out.print("*");
         }
         System.out.println();
+        // Reset the temper tower list for next round
         tmpTL = new ArrayList<>();
-
     }
 
     /**
@@ -116,6 +121,7 @@ public class Game {
         while (!enemies.isEmpty()) {
             /*
              * Enemy move. If any enemy move over the corridor, the game is over
+             * Display enemy move by print space in front of its position
              */
             for (int x = 0; x < enemies.size(); x++) {
                 Enemy e = enemies.get(x);
@@ -162,12 +168,14 @@ public class Game {
                 }
             }
             timeStep++;
-            // try {
-            // Thread.sleep(TIME_STEP_PAUSE);
-            // } catch (InterruptedException e) {
-            // // TODO Auto-generated catch block
-            // e.printStackTrace();
-            // }
+            // Make a half second pause after each time step so that user can
+            // see the game running
+            try {
+                Thread.sleep(TIME_STEP_PAUSE);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         System.out.println("YOU WIN!");
     }
@@ -196,8 +204,8 @@ public class Game {
         Enemy ne = enemy.get(index);
         ne.hit(t);
         if (ne.health <= 0) {
-            budget = budget + ne.bonus;
-            enemy.remove(ne);
+            budget = budget + ne.bonus; // Get reward bonus for killing enemy
+            enemy.remove(ne); // Remove dead enemy
         }
     }
 
@@ -206,15 +214,19 @@ public class Game {
      */
     @SuppressWarnings("unchecked")
     public static void buildTower() {
-
+        // Store budget into hash map
         costlist.put("1", "10");
         costlist.put("2", "5");
         costlist.put("3", "30");
-
+        /*
+         * Show tower menu and let user to chose new tower and its position new
+         * selection have to be under budget and at an empty position
+         */
         System.out.println(
                 "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 per 5 timestep");
         System.out.println("Please select tower");
         String selection = sc.nextLine();
+        // Check if it is out of budget
         while (budget < Integer.valueOf(costlist.get(selection))) {
             System.out.println("Insufficient budget");
             System.out.println(
@@ -222,7 +234,7 @@ public class Game {
             System.out.println("Please select tower");
             selection = sc.nextLine();
         }
-
+        // Check if new position is occupied
         System.out.println("Please select position (0~50)");
         String sposition = sc.nextLine();
         int sPosition = Integer.valueOf(sposition);
@@ -234,10 +246,10 @@ public class Game {
             sposition = sc.nextLine();
             sPosition = Integer.valueOf(sposition);
         }
-
+        // Record tower position for next checking
         towerPosition.add(sPosition);
         System.out.println("START");
-
+        // Add new tower according to user choice
         switch (selection) {
         default:
             System.out.println();
@@ -269,11 +281,13 @@ public class Game {
      */
     public static void main(String[] args) {
         // TODO Auto-generated method stub
+        // Display game instruction
         System.out.println("You have 5 initial budget to build towers, you will get bonus after kill enemies");
         System.out.println(
                 "There are 3 rounds. You can only build after each round. \nYour tower can only hit enemies who is in front of it");
-        System.out.println("Please Zoom your terminal to FULL SCREEN and Press ENTER");
+        System.out.println("Please Zoom your terminal to FULL SCREEN and Press ENTER to start");
         sc.nextLine();
+        // Round one
         System.out.println("Round 1: 5 Rats and 2 Elephant");
         System.out.println("Budget: " + budget);
         Rat r1 = new Rat();
@@ -291,13 +305,15 @@ public class Game {
         enemies.add(ele1);
         enemies.add(ele2);
         round();
+        // Give a pause before next round
         try {
             Thread.sleep(ROUND_PAUSE);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println("\033[H\033[2J");
+        // Round two
+        System.out.println("\033[H\033[2J"); // Flush terminal
         System.out.println("Round 2: 5 Rats and 4 Elephant");
         System.out.println("Budget: " + budget);
         Rat r6 = new Rat();
@@ -319,13 +335,14 @@ public class Game {
         enemies.add(ele5);
         enemies.add(ele6);
         round();
+        // Give a pause before next round
         try {
             Thread.sleep(ROUND_PAUSE);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println("\033[H\033[2J");
+        System.out.println("\033[H\033[2J"); // Flush terminal
         System.out.println("Round 3: The Lich King is COMING!!!");
         System.out.println("Budget: " + budget);
         Arthas a = new Arthas();

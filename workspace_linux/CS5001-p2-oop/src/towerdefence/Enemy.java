@@ -55,7 +55,6 @@ public abstract class Enemy {
      * @return Return the health
      */
     public int getHealth() {
-        // System.out.println(health);
         return health;
     }
 
