@@ -19,6 +19,10 @@ public class Game {
      * Define 50 as initial length for corridor.
      */
     public static final int INITIAL_CORRIDERLENGTH = 50;
+    /**
+     * Define 50 as initial length for corridor.
+     */
+    public static final int PAUSE_FOR_NEXT_ROUND = 50;
     protected static ArrayList<Enemy> enemies = new ArrayList<>();
     protected static ArrayList<Tower> towers = new ArrayList<>();
     @SuppressWarnings("rawtypes")
@@ -47,14 +51,6 @@ public class Game {
             System.out.print("*");
         }
         System.out.println();
-        for (int i = 0; i < corridorLength; i++) {
-            System.out.print(" ");
-        }
-        System.out.println("*");
-        for (int i = 0; i < corridorLength + 1; i++) {
-            System.out.print("*");
-        }
-        System.out.println();
     }
 
     /**
@@ -79,17 +75,30 @@ public class Game {
                 Enemy e = enemies.get(x);
                 if (e instanceof Elephant && timeStep % 2 == 0 && timeStep != 0) {
                     e.advance();
+                    // for(int y = 0;y < e.getPosition() - 1;y++){
+                    // System.out.print(" ");
+                    // }
+                    System.out.println("Elephant: Position " + e.getPosition() + " HP " + e.getHealth());
                     if (e.getPosition() >= corriderlength) {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
                     }
                 } else if (e instanceof Rat && timeStep % 1 == 0) {
                     e.advance();
+                    System.out.println("Rat: Position " + e.getPosition() + " HP " + e.getHealth());
+                    if (e.getPosition() >= corriderlength) {
+                        System.out.println("YOU LOSE!");
+                        System.exit(0);
+                    }
+                } else if (e instanceof Arthas) {
+                    e.advance();
+                    System.out.println("Arthas: Position " + e.getPosition() + " HP " + e.getHealth());
                     if (e.getPosition() >= corriderlength) {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
                     }
                 }
+                // System.out.println();
             }
             /*
              * Tower fire.
@@ -210,8 +219,9 @@ public class Game {
      * 
      * @param args
      *            initial user input.
+     * @throws InterruptedException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // TODO Auto-generated method stub
 
         System.out.println("Please Zoom your terminal to FULL SCREEN and Press ENTER");
@@ -237,7 +247,9 @@ public class Game {
         enemies.add(ele1);
         enemies.add(ele2);
         round();
-        System.out.println("Round 2: ");
+        Thread.sleep(2000);
+        System.out.println("\033[H\033[2J");
+        System.out.println("Round 2: 5 Rats and 4 Elephant");
         System.out.println("Budget: " + budget);
         Rat r6 = new Rat();
         Rat r7 = new Rat();
@@ -248,32 +260,35 @@ public class Game {
         Elephant ele4 = new Elephant();
         Elephant ele5 = new Elephant();
         Elephant ele6 = new Elephant();
-         enemies.add(r6);
-//         enemies.add(r7);
-//         enemies.add(r8);
-//         enemies.add(r9);
-//         enemies.add(r10);
+        enemies.add(r6);
+        enemies.add(r7);
+        enemies.add(r8);
+        enemies.add(r9);
+        enemies.add(r10);
         enemies.add(ele3);
         enemies.add(ele4);
         enemies.add(ele5);
         enemies.add(ele6);
         round();
-        System.out.println("Round 3");
+        Thread.sleep(PAUSE_FOR_NEXT_ROUND);
+        System.out.println("\033[H\033[2J");
+        System.out.println("Round 3: The Lich King is COMING!!!");
         System.out.println("Budget: " + budget);
         Arthas a = new Arthas();
         enemies.add(a);
         round();
     }
+
     /**
      * Method for generating each round of the game.
      */
     public static void round() {
         buildTower();
         Game game = new Game(corriderlength);
-        Rat r = new Rat();
-        Elephant ele = new Elephant();
-        enemies.add(r);
-        enemies.add(ele);
+        // Rat r = new Rat();
+        // Elephant ele = new Elephant();
+        // enemies.add(r);
+        // enemies.add(ele);
         game.advance();
     }
 
