@@ -20,19 +20,25 @@ public class Game {
      */
     public static final int INITIAL_CORRIDERLENGTH = 50;
     /**
-     * Define 50 as initial length for corridor.
+     * Define 5000 for 5 second use for making a pause after each round.
      */
-    public static final int PAUSE_FOR_NEXT_ROUND = 50;
+    public static final int ROUND_PAUSE = 5000;
+    /**
+     * Define 1000 for 1 second use for making a pause after each time step.
+     */
+    public static final int TIME_STEP_PAUSE = 500;
     protected static ArrayList<Enemy> enemies = new ArrayList<>();
     protected static ArrayList<Tower> towers = new ArrayList<>();
+    // Temper list used for displaying tower
+    protected static ArrayList<Tower> tmpTL = new ArrayList<>();
     @SuppressWarnings("rawtypes")
     protected static ArrayList towerPosition = new ArrayList();
     protected static int budget = INITIAL_BUDGET;
     protected static int corriderlength = INITIAL_CORRIDERLENGTH;
     protected static int round = 0;
     protected static Scanner sc = new Scanner(System.in);
+    // A hash map storing the tower and its cost
     protected static HashMap<String, String> costlist = new HashMap<String, String>();
-
     /**
      * Global variable for getting running time.
      */
@@ -46,11 +52,51 @@ public class Game {
      */
     @SuppressWarnings("static-access")
     public Game(int corridorLength) {
-        this.corriderlength = corridorLength;
-        for (int i = 0; i < corridorLength + 1; i++) {
+        this.corriderlength = corridorLength; // Get corridor length
+        int tempp = corridorLength;
+        int frontT = 0;
+        int printP = 0;
+        // Display the tower along the corridor wall (indicate by *)
+        // Use a temper list to avoid influencing the tower list
+        for (int p = 0; p < towers.size(); p++) {
+            Tower tmpT = towers.get(p);
+            tmpTL.add(tmpT);
+        }
+        /*
+         * Display towers
+         */
+        while (!tmpTL.isEmpty()) {
+            // Find the position order
+            for (int m = 0; m < tmpTL.size(); m++) {
+                Tower tempt = tmpTL.get(m);
+                if (tempt.getPosition() <= tempp) {
+                    tempp = tempt.getPosition();
+                    frontT = m;
+                }
+            }
+            // Print space for empty position
+            for (int n = 0; n < (tempp - printP) - 1; n++) {
+                System.out.print(" ");
+            }
+            if (tmpTL.get(frontT) instanceof Catapult) {
+                System.out.print("C");
+            } else if (tmpTL.get(frontT) instanceof Slingshot) {
+                System.out.print("S");
+            } else if (tmpTL.get(frontT) instanceof Fordring) {
+                System.out.print("F");
+            }
+            printP = tempp;
+            tmpTL.remove(frontT);
+            tempp = corridorLength;
+        }
+        System.out.println();
+
+        for (int i = 0; i < corridorLength; i++) {
             System.out.print("*");
         }
         System.out.println();
+        tmpTL = new ArrayList<>();
+
     }
 
     /**
@@ -75,24 +121,30 @@ public class Game {
                 Enemy e = enemies.get(x);
                 if (e instanceof Elephant && timeStep % 2 == 0 && timeStep != 0) {
                     e.advance();
-                    // for(int y = 0;y < e.getPosition() - 1;y++){
-                    // System.out.print(" ");
-                    // }
-                    System.out.println("Elephant: Position " + e.getPosition() + " HP " + e.getHealth());
+                    for (int y = 0; y < e.getPosition() - 1; y++) {
+                        System.out.print(" ");
+                    }
+                    System.out.println("Elephant: HP " + e.getHealth());
                     if (e.getPosition() >= corriderlength) {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
                     }
                 } else if (e instanceof Rat && timeStep % 1 == 0) {
                     e.advance();
-                    System.out.println("Rat: Position " + e.getPosition() + " HP " + e.getHealth());
+                    for (int y = 0; y < e.getPosition() - 1; y++) {
+                        System.out.print(" ");
+                    }
+                    System.out.println("Rat: HP " + e.getHealth());
                     if (e.getPosition() >= corriderlength) {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
                     }
                 } else if (e instanceof Arthas) {
                     e.advance();
-                    System.out.println("Arthas: Position " + e.getPosition() + " HP " + e.getHealth());
+                    for (int y = 0; y < e.getPosition() - 1; y++) {
+                        System.out.print(" ");
+                    }
+                    System.out.println("Arthas: HP " + e.getHealth());
                     if (e.getPosition() >= corriderlength) {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
@@ -110,6 +162,12 @@ public class Game {
                 }
             }
             timeStep++;
+            // try {
+            // Thread.sleep(TIME_STEP_PAUSE);
+            // } catch (InterruptedException e) {
+            // // TODO Auto-generated catch block
+            // e.printStackTrace();
+            // }
         }
         System.out.println("YOU WIN!");
     }
@@ -188,28 +246,16 @@ public class Game {
             Catapult c = new Catapult(sPosition);
             budget = budget - c.cost;
             towers.add(c);
-            for (int i = 0; i < sPosition - 1; i++) {
-                System.out.print(" ");
-            }
-            System.out.println("C");
             break;
         case "2":
             Slingshot s = new Slingshot(sPosition);
             budget = budget - s.cost;
             towers.add(s);
-            for (int i = 0; i < sPosition - 1; i++) {
-                System.out.print(" ");
-            }
-            System.out.println("S");
             break;
         case "3":
             Fordring f = new Fordring(sPosition);
             budget = budget - f.cost;
             towers.add(f);
-            for (int i = 0; i < sPosition - 1; i++) {
-                System.out.print(" ");
-            }
-            System.out.println("F");
             break;
         }
     }
@@ -221,15 +267,13 @@ public class Game {
      *            initial user input.
      * @throws InterruptedException
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         // TODO Auto-generated method stub
-
-        System.out.println("Please Zoom your terminal to FULL SCREEN and Press ENTER");
-        sc.nextLine();
-
         System.out.println("You have 5 initial budget to build towers, you will get bonus after kill enemies");
         System.out.println(
                 "There are 3 rounds. You can only build after each round. \nYour tower can only hit enemies who is in front of it");
+        System.out.println("Please Zoom your terminal to FULL SCREEN and Press ENTER");
+        sc.nextLine();
         System.out.println("Round 1: 5 Rats and 2 Elephant");
         System.out.println("Budget: " + budget);
         Rat r1 = new Rat();
@@ -247,7 +291,12 @@ public class Game {
         enemies.add(ele1);
         enemies.add(ele2);
         round();
-        Thread.sleep(2000);
+        try {
+            Thread.sleep(ROUND_PAUSE);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.out.println("\033[H\033[2J");
         System.out.println("Round 2: 5 Rats and 4 Elephant");
         System.out.println("Budget: " + budget);
@@ -270,7 +319,12 @@ public class Game {
         enemies.add(ele5);
         enemies.add(ele6);
         round();
-        Thread.sleep(PAUSE_FOR_NEXT_ROUND);
+        try {
+            Thread.sleep(ROUND_PAUSE);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.out.println("\033[H\033[2J");
         System.out.println("Round 3: The Lich King is COMING!!!");
         System.out.println("Budget: " + budget);
@@ -285,10 +339,6 @@ public class Game {
     public static void round() {
         buildTower();
         Game game = new Game(corriderlength);
-        // Rat r = new Rat();
-        // Elephant ele = new Elephant();
-        // enemies.add(r);
-        // enemies.add(ele);
         game.advance();
     }
 
