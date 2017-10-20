@@ -35,7 +35,6 @@ public class Game {
     protected static ArrayList towerPosition = new ArrayList();
     protected static int budget = INITIAL_BUDGET;
     protected static int corriderlength = INITIAL_CORRIDERLENGTH;
-    protected static int round = 0;
     protected static Scanner sc = new Scanner(System.in);
     // A hash map storing the tower and its cost
     protected static HashMap<String, String> costlist = new HashMap<String, String>();
@@ -156,7 +155,6 @@ public class Game {
                         System.exit(0);
                     }
                 }
-                // System.out.println();
             }
             /*
              * Tower fire.
@@ -240,9 +238,7 @@ public class Game {
         int sPosition = Integer.valueOf(sposition);
         while (towerPosition.contains(sPosition)) {
             System.out.println("Occupied position");
-            System.out.println(
-                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 bonus 10 damage per 5 timestep");
-            System.out.println("Please select tower");
+            System.out.println("Please select position");
             sposition = sc.nextLine();
             sPosition = Integer.valueOf(sposition);
         }
