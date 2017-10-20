@@ -12,19 +12,19 @@ public abstract class Tower {
      */
     public static final int CATAPULT_DAMAGE = 5;
     /**
-     * Static certain value 5 of loading time of tower of type of catapult.
+     * Static certain value 3 of loading time of tower of type of catapult.
      */
     public static final int CATAPULT_LOADINGTIME = 3;
     /**
-     * Static certain value 5 of cost of tower of type of catapult.
+     * Static certain value 10 of cost of tower of type of catapult.
      */
     public static final int CATAPULT_COST = 10;
     /**
-     * Static certain value 5 of damage of tower of type of sling shot.
+     * Static certain value 1 of damage of tower of type of sling shot.
      */
     public static final int SLINGSHOT_DAMAGE = 1;
     /**
-     * Static certain value 5 of loading time of tower of type of sling shot.
+     * Static certain value 1 of loading time of tower of type of sling shot.
      */
     public static final int SLINGSHOT_LOADINGTIME = 1;
     /**

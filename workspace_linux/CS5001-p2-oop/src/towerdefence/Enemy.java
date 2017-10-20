@@ -36,7 +36,7 @@ public abstract class Enemy {
      */
     public static final int ARTHAS_HEALTH = 100;
     /**
-     * Static certain value 0.1 of speed of enemy of type of boss Arthas.
+     * Static certain value 0.2 of speed of enemy of type of boss Arthas.
      */
     public static final float ARTHAS_SPEED = 0.2f;
     /**

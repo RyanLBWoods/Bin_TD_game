@@ -135,7 +135,7 @@ public class Game {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
                     }
-                } else if (e instanceof Rat && timeStep % 1 == 0) {
+                } else if (e instanceof Rat && timeStep % 1 == 0 && timeStep != 0) {
                     e.advance();
                     for (int y = 0; y < e.getPosition() - 1; y++) {
                         System.out.print(" ");
@@ -145,7 +145,7 @@ public class Game {
                         System.out.println("YOU LOSE!");
                         System.exit(0);
                     }
-                } else if (e instanceof Arthas) {
+                } else if (e instanceof Arthas && timeStep != 0) {
                     e.advance();
                     for (int y = 0; y < e.getPosition() - 1; y++) {
                         System.out.print(" ");
@@ -223,14 +223,14 @@ public class Game {
          * selection have to be under budget and at an empty position
          */
         System.out.println(
-                "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 per 5 timestep");
+                "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 bonus 10 damage per 5 timestep");
         System.out.println("Please select tower");
         String selection = sc.nextLine();
         // Check if it is out of budget
         while (budget < Integer.valueOf(costlist.get(selection))) {
             System.out.println("Insufficient budget");
             System.out.println(
-                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 per 5 timestep");
+                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 bonus 10 damage per 5 timestep");
             System.out.println("Please select tower");
             selection = sc.nextLine();
         }
@@ -241,13 +241,14 @@ public class Game {
         while (towerPosition.contains(sPosition)) {
             System.out.println("Occupied position");
             System.out.println(
-                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 bonus 30 damage per 5 timestep");
+                    "Tower:\n1 Catapult: 10 bonus 5 damage per 3 timestep\n2 Slingshot: 5 bonus 1 damage per timestep\n3 Fordring: 30 bonus 10 damage per 5 timestep");
             System.out.println("Please select tower");
             sposition = sc.nextLine();
             sPosition = Integer.valueOf(sposition);
         }
         // Record tower position for next checking
         towerPosition.add(sPosition);
+        System.out.println("\033[H\033[2J"); // Flush terminal
         System.out.println("START");
         // Add new tower according to user choice
         switch (selection) {
@@ -282,9 +283,10 @@ public class Game {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         // Display game instruction
-        System.out.println("You have 5 initial budget to build towers, you will get bonus after kill enemies");
+        System.out.println("\033[H\033[2J"); // Flush terminal
+        System.out.println("You have 5 initial budget to build towers, you will get bonus after kill enemies.");
         System.out.println(
-                "There are 3 rounds. You can only build after each round. \nYour tower can only hit enemies who is in front of it");
+                "There are 3 rounds. You can only build one tower after each round. \nYour tower can only hit enemies who is in front of it.");
         System.out.println("Please Zoom your terminal to FULL SCREEN and Press ENTER to start");
         sc.nextLine();
         // Round one
