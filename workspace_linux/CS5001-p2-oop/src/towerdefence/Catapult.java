@@ -17,6 +17,7 @@ public class Catapult extends Tower {
         this.damage = CATAPULT_DAMAGE;
         this.loadingTime = CATAPULT_LOADINGTIME;
         this.position = position;
+        this.cost = CATAPULT_COST;
         // TODO Auto-generated constructor stub
     }
 }

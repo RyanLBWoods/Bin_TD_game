@@ -16,6 +16,10 @@ public abstract class Tower {
      */
     public static final int CATAPULT_LOADINGTIME = 3;
     /**
+     * Static certain value 5 of cost of tower of type of catapult.
+     */
+    public static final int CATAPULT_COST = 10;
+    /**
      * Static certain value 5 of damage of tower of type of sling shot.
      */
     public static final int SLINGSHOT_DAMAGE = 1;
@@ -23,10 +27,27 @@ public abstract class Tower {
      * Static certain value 5 of loading time of tower of type of sling shot.
      */
     public static final int SLINGSHOT_LOADINGTIME = 1;
+    /**
+     * Static certain value 5 of cost of tower of type of sling shot.
+     */
+    public static final int SLINGSHOT_COST = 5;
+    /**
+     * Static certain value 10 of damage of tower of type of Fordring.
+     */
+    public static final int FORDRING_DAMAGE = 10;
+    /**
+     * Static certain value 5 of loading time of tower of type of Fording.
+     */
+    public static final int FORDRING_LOADINGTIME = 5;
+    /**
+     * Static certain value 30 of cost of tower of type of Fordring.
+     */
+    public static final int FORDRING_COST = 30;
 
     protected int damage;
     protected int position;
     protected int loadingTime;
+    protected int cost;
 
     /**
      * Get damage of tower.

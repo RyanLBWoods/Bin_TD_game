@@ -15,5 +15,4 @@ public class Elephant extends Enemy {
         this.speed = ELEPHANT_SPEED;
         // TODO Auto-generated constructor stub
     }
-
 }

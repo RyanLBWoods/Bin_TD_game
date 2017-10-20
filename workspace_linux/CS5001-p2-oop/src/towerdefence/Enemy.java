@@ -16,6 +16,10 @@ public abstract class Enemy {
      */
     public static final float ELEPHANT_SPEED = 0.5f;
     /**
+     * Static certain value 5 of bonus of enemy of type of boss elephant.
+     */
+    public static final int ELEPHANT_BONUS = 5;
+    /**
      * Static certain value 1 of health of enemy of type of rat.
      */
     public static final int RAT_HEALTH = 1;
@@ -23,16 +27,35 @@ public abstract class Enemy {
      * Static certain value 2 of health of enemy of type of rat.
      */
     public static final float RAT_SPEED = 2;
+    /**
+     * Static certain value 1 of bonus of enemy of type of rat.
+     */
+    public static final int RAT_BONUS = 1;
+    /**
+     * Static certain value 100 of health of enemy of type of boss Arthas.
+     */
+    public static final int ARTHAS_HEALTH = 100;
+    /**
+     * Static certain value 0.1 of speed of enemy of type of boss Arthas.
+     */
+    public static final float ARTHAS_SPEED = 0.1f;
+    /**
+     * Static certain value 100 of bonus of enemy of type of boss Arthas.
+     */
+    public static final int ARTHAS_BONUS = 100;
 
     protected int health;
-    protected int position;
+    protected float position;
     protected float speed;
+    protected int bonus;
+
     /**
      * Get health of enemy.
      * 
      * @return Return the health
      */
     public int getHealth() {
+        // System.out.println(health);
         return health;
     }
 
@@ -42,7 +65,7 @@ public abstract class Enemy {
      * @return Return the position
      */
     public int getPosition() {
-        return position;
+        return (int) position;
     }
 
     /**
@@ -52,13 +75,15 @@ public abstract class Enemy {
      *            Parameter of tower
      */
     public void hit(Tower t) {
-        this.health -= t.getDamage();
+        if (t.getPosition() >= position) {
+            this.health -= t.getDamage();
+        }
     }
 
     /**
      * Method for enemy to move forward.
      */
     public void advance() {
-        this.position += speed;
+        position += speed;
     }
 }

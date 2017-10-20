@@ -17,6 +17,7 @@ public class Slingshot extends Tower {
         this.damage = SLINGSHOT_DAMAGE;
         this.loadingTime = SLINGSHOT_LOADINGTIME;
         this.position = position;
+        this.cost = SLINGSHOT_COST;
         // TODO Auto-generated constructor stub
     }
 
